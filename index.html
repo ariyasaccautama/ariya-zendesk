@@ -52,22 +52,18 @@
     window.zE || (window.zE = function(){(window.zE.q = window.zE.q || []).push(arguments);});
 
     document.getElementById('start-call-btn').addEventListener('click', function() {
-      if (VOICE_LINE_ID === 'VOICE_LINE_ID') {
-        alert('VOICE_LINE_ID belum di-set. Ganti VOICE_LINE_ID di index.html atau gunakan deploy automation.');
-        return;
-      }
-
-      if (typeof zE === 'function') {
+    if (typeof zE === 'function') {
         try {
-          zE('messenger:open', 'voice', VOICE_LINE_ID);
+            zE('messenger', 'open');
+            zE('messenger', 'deepLink', 'voice', VOICE_LINE_ID);
         } catch (err) {
-          console.error('Gagal memanggil zE:', err);
-          alert('Gagal membuka widget. Cek console untuk detail.');
+            console.error('Gagal membuka widget:', err);
         }
-      } else {
-        alert('Zendesk widget belum siap. Tunggu beberapa detik lalu coba lagi.');
-      }
-    });
+    } else {
+        alert('Zendesk widget belum siap, coba beberapa detik lagi.');
+    }
+});
+
   </script>
 </body>
 </html>
