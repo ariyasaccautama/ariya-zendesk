@@ -47,7 +47,7 @@
 
     // Muat skrip Zendesk (dynamic) agar mudah diganti pada build/deploy
     (function loadZendeskSnippet(key) {
-      if (!key || key === 'SNIPPET_KEY') {
+      if (!key || key === '10bbea57-377e-4dea-a930-0b7969f7b559') {
         console.warn('Zendesk snippet key belum di-set. Ganti SNIPPET_KEY di index.html atau gunakan deploy automation.');
         return;
       }
@@ -62,7 +62,7 @@
     window.zE || (window.zE = function(){(window.zE.q = window.zE.q || []).push(arguments);});
 
     document.getElementById('start-call-btn').addEventListener('click', function() {
-      if (VOICE_LINE_ID === 'VOICE_LINE_ID') {
+      if (VOICE_LINE_ID === 'c7096a68abc627441a2a9760a9ad485d') {
         alert('VOICE_LINE_ID belum di-set. Ganti VOICE_LINE_ID di index.html atau gunakan deploy automation.');
         return;
       }
