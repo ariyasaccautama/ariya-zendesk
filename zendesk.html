@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zendesk Voice Widget</title>
+  <style>
+    /* Styling tombol */
+    .call-button {
+      background-color: #0033A0; /* Biru Bank Mandiri */
+      color: #FFD700; /* Kuning Mandiri */
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .call-button:hover {
+      background-color: #00246B;
+      transform: scale(1.03);
+    }
+
+    .call-button:active {
+      transform: scale(0.97);
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hubungi Kami</h2>
+  <p>Klik tombol di bawah untuk melakukan panggilan suara dengan tim support kami.</p>
+
+  <button class="call-button" id="start-call-btn" aria-label="Mulai panggilan suara ke tim support">
+    📞 Hubungi Sekarang
+  </button>
+
+  <!-- Start of con-ariyasaasten Zendesk Widget script -->
+  <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=10bbea57-377e-4dea-a930-0b7969f7b559"></script>
+  <!-- End of Zendesk Widget script -->
+
+  <script>
+    // Tunggu sampai widget siap
+    window.zE || (window.zE = function() { (window.zE.q = window.zE.q || []).push(arguments); });
+
+    // Tambahkan event click pada tombol
+    document.getElementById('start-call-btn').addEventListener('click', function() {
+      // Pastikan Zendesk Widget siap
+      if (typeof zE === 'function') {
+        // Buka widget dan langsung ke mode voice menggunakan line_id kamu
+        zE('messenger:open', 'voice', 'c7096a68abc627441a2a9760a9ad485d');
+      } else {
+        alert('Zendesk widget belum siap. Coba lagi dalam beberapa detik.');
+      }
+    });
+  </script>
+</body>
+</html>
