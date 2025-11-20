@@ -28,23 +28,17 @@
   <p>Klik tombol di bawah untuk memulai panggilan suara ke tim support.</p>
 
   <button id="start-call-btn" class="call-button" aria-label="Mulai panggilan suara">
-    📞 Hubungi Sekarang!
+    📞 Hubungi Sekarang
   </button>
-  <!--
-    NOTE:
-    - Ganti `SNIPPET_KEY` dengan key Zendesk snippet Anda.
-    - Ganti `VOICE_LINE_ID` dengan line_id voice yang valid.
-    - Menyimpan key langsung di file publik = exposure. 
-      Untuk opsi aman, lihat README.md (GitHub Actions + Secrets).
-  -->
-  <script>
-    // UBAH dua konstanta ini sebelum publish (atau gunakan proses deploy yang menggantikan placeholder)
-    const SNIPPET_KEY = 'SNIPPET_KEY';      // <-- ganti dengan key Zendesk mu
-    const VOICE_LINE_ID = 'VOICE_LINE_ID';  // <-- ganti dengan line_id mu
 
-    // Muat skrip Zendesk (dynamic) agar mudah diganti pada build/deploy
+  <p class="note">Versi demo: ganti <code>SNIPPET_KEY</code> dan <code>VOICE_LINE_ID</code> dengan nilai Anda.</p>
+
+  <script>
+    const SNIPPET_KEY = '10bbea57-377e-4dea-a930-0b7969f7b559';
+    const VOICE_LINE_ID = 'c7096a68abc627441a2a9760a9ad485d';
+
     (function loadZendeskSnippet(key) {
-      if (!key || key === '10bbea57-377e-4dea-a930-0b7969f7b559') {
+      if (!key || key === 'SNIPPET_KEY') {
         console.warn('Zendesk snippet key belum di-set. Ganti SNIPPET_KEY di index.html atau gunakan deploy automation.');
         return;
       }
@@ -55,19 +49,16 @@
       document.head.appendChild(s);
     })(SNIPPET_KEY);
 
-    // Fallback definisi zE minimal agar tidak error bila script belum siap
     window.zE || (window.zE = function(){(window.zE.q = window.zE.q || []).push(arguments);});
 
     document.getElementById('start-call-btn').addEventListener('click', function() {
-      if (VOICE_LINE_ID === 'c7096a68abc627441a2a9760a9ad485d') {
+      if (VOICE_LINE_ID === 'VOICE_LINE_ID') {
         alert('VOICE_LINE_ID belum di-set. Ganti VOICE_LINE_ID di index.html atau gunakan deploy automation.');
         return;
       }
 
-      // pastikan zE telah didefinisikan
       if (typeof zE === 'function') {
         try {
-          // Buka messenger ke mode voice; ini contoh pemanggilan sesuai dokumentasi Zendesk
           zE('messenger:open', 'voice', VOICE_LINE_ID);
         } catch (err) {
           console.error('Gagal memanggil zE:', err);
