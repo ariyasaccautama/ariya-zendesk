@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zendesk Voice Widget — Contoh</title>
+  <meta name="description" content="Contoh tombol panggil menggunakan Zendesk Widget (static demo)." />
+  <style>
+    .call-button {
+      background-color: #0033A0;
+      color: #FFD700;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .call-button:hover { background-color: #00246B; transform: scale(1.03); }
+    .call-button:active { transform: scale(0.97); }
+    body { font-family: Arial, sans-serif; text-align:center; margin-top:80px; padding: 16px;}
+    .note { color:#666; font-size:14px; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <h1>Hubungi Kami</h1>
+  <p>Klik tombol di bawah untuk memulai panggilan suara ke tim support.</p>
+
+  <button id="start-call-btn" class="call-button" aria-label="Mulai panggilan suara">
+    📞 Hubungi Sekarang
+  </button>
+
+  <p class="note">Versi demo: ganti <code>SNIPPET_KEY</code> dan <code>VOICE_LINE_ID</code> dengan nilai Anda.</p>
+
+  <!--
+    NOTE:
+    - Ganti `SNIPPET_KEY` dengan key Zendesk snippet Anda.
+    - Ganti `VOICE_LINE_ID` dengan line_id voice yang valid.
+    - Menyimpan key langsung di file publik = exposure. 
+      Untuk opsi aman, lihat README.md (GitHub Actions + Secrets).
+  -->
+  <script>
+    // UBAH dua konstanta ini sebelum publish (atau gunakan proses deploy yang menggantikan placeholder)
+    const SNIPPET_KEY = 'SNIPPET_KEY';      // <-- ganti dengan key Zendesk mu
+    const VOICE_LINE_ID = 'VOICE_LINE_ID';  // <-- ganti dengan line_id mu
+
+    // Muat skrip Zendesk (dynamic) agar mudah diganti pada build/deploy
+    (function loadZendeskSnippet(key) {
+      if (!key || key === 'SNIPPET_KEY') {
+        console.warn('Zendesk snippet key belum di-set. Ganti SNIPPET_KEY di index.html atau gunakan deploy automation.');
+        return;
+      }
+      const s = document.createElement('script');
+      s.id = 'ze-snippet';
+      s.src = `https://static.zdassets.com/ekr/snippet.js?key=${encodeURIComponent(key)}`;
+      s.defer = true;
+      document.head.appendChild(s);
+    })(SNIPPET_KEY);
+
+    // Fallback definisi zE minimal agar tidak error bila script belum siap
+    window.zE || (window.zE = function(){(window.zE.q = window.zE.q || []).push(arguments);});
+
+    document.getElementById('start-call-btn').addEventListener('click', function() {
+      if (VOICE_LINE_ID === 'VOICE_LINE_ID') {
+        alert('VOICE_LINE_ID belum di-set. Ganti VOICE_LINE_ID di index.html atau gunakan deploy automation.');
+        return;
+      }
+
+      // pastikan zE telah didefinisikan
+      if (typeof zE === 'function') {
+        try {
+          // Buka messenger ke mode voice; ini contoh pemanggilan sesuai dokumentasi Zendesk
+          zE('messenger:open', 'voice', VOICE_LINE_ID);
+        } catch (err) {
+          console.error('Gagal memanggil zE:', err);
+          alert('Gagal membuka widget. Cek console untuk detail.');
+        }
+      } else {
+        alert('Zendesk widget belum siap. Tunggu beberapa detik lalu coba lagi.');
+      }
+    });
+  </script>
+</body>
+</html>

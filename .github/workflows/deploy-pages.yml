@@ -1,0 +1,23 @@
+name: Build & Deploy Pages (replace secrets)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace placeholders with secrets
+        run: |
+          sed -i "s/SNIPPET_KEY/${{ secrets.ZENDESK_SNIPPET_KEY }}/g" index.html
+          sed -i "s/VOICE_LINE_ID/${{ secrets.ZENDESK_VOICE_LINE_ID }}/g" index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
